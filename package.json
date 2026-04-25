@@ -1,0 +1,30 @@
+{
+  "name": "aloha-file-explorer",
+  "private": false,
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prebuild": "aloha version package.json manifest.json",
+    "build": "tsc && vite build",
+    "test": "tsx --test",
+    "test:watch": "tsx --watch --test"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@types/node": "^20.0.0",
+    "tsx": "^4.20.3",
+    "typescript": "~5.8.3",
+    "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "aloha-sdk": "^1.2.20"
+  }
+}

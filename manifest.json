@@ -1,0 +1,10 @@
+{
+  "manifestVersion": 1,
+  "name": "Aloha File Explorer",
+  "version": "1.0.0",
+  "description": "Find files and folders on your computer.",
+  "author": "Aloha Desktop",
+  "icon": "dist/icon.svg",
+  "main": "dist/index.esm.js",
+  "tools": []
+}
