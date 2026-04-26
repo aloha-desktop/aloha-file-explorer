@@ -8,11 +8,12 @@ export default class AlohaFileExplorerPlugin extends Plugin {
   }
 
   async toolCall(toolName: string, toolArgs: Record<string, any>): Promise<string> {
+    const includeHidden = toolArgs.includeHidden ?? false
     if (toolName === "searchFile") {
-      return await this.searchFile(toolArgs.keywords, toolArgs.directory)
+      return await this.searchFile(toolArgs.keywords, toolArgs.directory, includeHidden)
     }
     if (toolName === "searchDirectory") {
-      return await this.searchDirectory(toolArgs.keywords, toolArgs.directory)
+      return await this.searchDirectory(toolArgs.keywords, toolArgs.directory, includeHidden)
     }
     throw new Error(`Tool ${toolName} is not available`)
   }
@@ -28,7 +29,7 @@ export default class AlohaFileExplorerPlugin extends Plugin {
     return score
   }
 
-  async searchFile(keywords: string, directoryType: PathName): Promise<string> {
+  async searchFile(keywords: string, directoryType: PathName, includeHidden: boolean): Promise<string> {
     const directory = this.getContext().getPath(directoryType)
 
     const keywordsList = keywords.split(/\s+/) // split by one or more whitespace characters
@@ -37,6 +38,7 @@ export default class AlohaFileExplorerPlugin extends Plugin {
     const searchDir = async (dir: string) => {
       const files = await fs.readdir(dir, { withFileTypes: true })
       for (const file of files) {
+        if (!includeHidden && file.name.startsWith('.')) continue
         const fullPath = path.join(dir, file.name)
         if (file.isDirectory()) {
           await searchDir(fullPath).catch(() => { })
@@ -70,7 +72,7 @@ export default class AlohaFileExplorerPlugin extends Plugin {
     `
   }
 
-  async searchDirectory(keywords: string, directoryType: PathName): Promise<string> {
+  async searchDirectory(keywords: string, directoryType: PathName, includeHidden: boolean): Promise<string> {
     const directory = this.getContext().getPath(directoryType)
 
     const keywordsList = keywords.split(/\s+/) // split by one or more whitespace characters
@@ -79,6 +81,7 @@ export default class AlohaFileExplorerPlugin extends Plugin {
     const searchDir = async (dir: string) => {
       const files = await fs.readdir(dir, { withFileTypes: true })
       for (const file of files) {
+        if (!includeHidden && file.name.startsWith('.')) continue
         const fullPath = path.join(dir, file.name)
         if (file.isDirectory()) {
           const score = this.computeScore(file.name, keywordsList)
