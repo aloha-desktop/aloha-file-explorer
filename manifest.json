@@ -6,5 +6,37 @@
   "author": "Aloha Desktop",
   "icon": "dist/icon.svg",
   "main": "dist/index.esm.js",
-  "tools": []
+  "tools": [
+    {
+      "name": "searchFile",
+      "displayName": "Search File",
+      "description": "Search for files in a directory. Never rely on exact match of the keywords, instead use broader keyword list. For example, use 'proof of insurance car id card pdf' instead of 'ford insurance pdf' to find 'car_id_card.pdf'.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "keywords",
+          "directory"
+        ],
+        "properties": {
+          "keywords": {
+            "type": "string",
+            "description": "The keywords present in the file name to search for. For example: when searching for '2025 company reports' use '2025 company firm report reports' to cover plural and singular forms as well as alternative phrasings."
+          },
+          "directory": {
+            "type": "string",
+            "description": "The directory to search in",
+            "enum": [
+              "desktop",
+              "downloads",
+              "documents",
+              "music",
+              "pictures",
+              "videos",
+              "home"
+            ]
+          }
+        }
+      }
+    }
+  ]
 }
