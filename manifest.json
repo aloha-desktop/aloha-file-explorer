@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "name": "Aloha File Explorer",
+  "name": "File Explorer",
   "version": "1.0.0",
   "description": "Find files and folders on your computer.",
   "author": "Aloha Desktop",
@@ -21,6 +21,37 @@
           "keywords": {
             "type": "string",
             "description": "The keywords present in the file name to search for. For example: when searching for '2025 company reports' use '2025 company firm report reports' to cover plural and singular forms as well as alternative phrasings."
+          },
+          "directory": {
+            "type": "string",
+            "description": "The directory to search in",
+            "enum": [
+              "desktop",
+              "downloads",
+              "documents",
+              "music",
+              "pictures",
+              "videos",
+              "home"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "searchDirectory",
+      "displayName": "Search Directory",
+      "description": "Search for directories (folders) in a directory. Never rely on exact match of the keywords, instead use broader keyword list. For example, use 'us tax return form forms irs refund' instead of 'tax return' to find '2025 us tax return' folder.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "keywords",
+          "directory"
+        ],
+        "properties": {
+          "keywords": {
+            "type": "string",
+            "description": "The keywords present in the directory name to search for. For example: when searching for '2025 company reports' use '2025 company firm report reports' to cover plural and singular forms as well as alternative phrasings."
           },
           "directory": {
             "type": "string",

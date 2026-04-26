@@ -11,6 +11,9 @@ export default class AlohaFileExplorerPlugin extends Plugin {
     if (toolName === "searchFile") {
       return await this.searchFile(toolArgs.keywords, toolArgs.directory)
     }
+    if (toolName === "searchDirectory") {
+      return await this.searchDirectory(toolArgs.keywords, toolArgs.directory)
+    }
     throw new Error(`Tool ${toolName} is not available`)
   }
 
@@ -64,6 +67,47 @@ export default class AlohaFileExplorerPlugin extends Plugin {
     return `Found ${results.size} files in \`${directory}\` matching the keywords \`${keywords}\`:
       \n${sortedResults.map((r, i) => `${i + 1}. ${this.formatFilePath(directory, r)}`).join('\n')}
       \nClick on the link to show the file in the enclosing folder.
+    `
+  }
+
+  async searchDirectory(keywords: string, directoryType: PathName): Promise<string> {
+    const directory = this.getContext().getPath(directoryType)
+
+    const keywordsList = keywords.split(/\s+/) // split by one or more whitespace characters
+    const results = new Map<string, number>()
+
+    const searchDir = async (dir: string) => {
+      const files = await fs.readdir(dir, { withFileTypes: true })
+      for (const file of files) {
+        const fullPath = path.join(dir, file.name)
+        if (file.isDirectory()) {
+          const score = this.computeScore(file.name, keywordsList)
+          if (score > 0) {
+            results.set(fullPath, score)
+          }
+          await searchDir(fullPath).catch(() => { })
+        }
+      }
+    }
+
+    try {
+      await searchDir(directory)
+    } catch (e) {
+      return `Error searching directory: ${(e as Error).message}`
+    }
+
+    if (results.size === 0) {
+      return `No directories found in \`${directory}\` matching the keywords \`${keywords}\`.`
+    }
+
+    const sortedResults = Array.from(results.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(entry => entry[0])
+
+    return `Found ${results.size} directories in \`${directory}\` matching the keywords \`${keywords}\`:
+      \n${sortedResults.map((r, i) => `${i + 1}. ${this.formatFilePath(directory, r)}`).join('\n')}
+      \nClick on the link to show the directory in the enclosing folder.
     `
   }
 
