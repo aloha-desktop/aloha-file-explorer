@@ -58,7 +58,7 @@ export default class AlohaFileExplorerPlugin extends Plugin {
     }
 
     if (results.size === 0) {
-      return `No files found in \`${directory}\` matching the keywords \`${keywords}\`.`
+      return `No files found in ${directoryType} folder matching the keywords \`${keywords}\`.`
     }
 
     const sortedResults = Array.from(results.entries())
@@ -66,7 +66,7 @@ export default class AlohaFileExplorerPlugin extends Plugin {
       .slice(0, 5)
       .map(entry => entry[0])
 
-    return `Found ${results.size} files in \`${directory}\` matching the keywords \`${keywords}\`:
+    return `Found ${results.size === 1 ? '1 file' : `${results.size} files`} in ${directoryType} folder matching the keywords \`${keywords}\`:
       \n${sortedResults.map((r, i) => `${i + 1}. ${this.formatFilePath(directory, r)}`).join('\n')}
       \nClick on the link to show the file in the enclosing folder.
     `
@@ -100,7 +100,7 @@ export default class AlohaFileExplorerPlugin extends Plugin {
     }
 
     if (results.size === 0) {
-      return `No directories found in \`${directory}\` matching the keywords \`${keywords}\`.`
+      return `No directories found in ${directoryType} folder matching the keywords \`${keywords}\`.`
     }
 
     const sortedResults = Array.from(results.entries())
@@ -108,7 +108,7 @@ export default class AlohaFileExplorerPlugin extends Plugin {
       .slice(0, 5)
       .map(entry => entry[0])
 
-    return `Found ${results.size} directories in \`${directory}\` matching the keywords \`${keywords}\`:
+    return `Found ${results.size === 1 ? '1 directory' : `${results.size} directories`} in ${directoryType} folder matching the keywords \`${keywords}\`:
       \n${sortedResults.map((r, i) => `${i + 1}. ${this.formatFilePath(directory, r)}`).join('\n')}
       \nClick on the link to show the directory in the enclosing folder.
     `
