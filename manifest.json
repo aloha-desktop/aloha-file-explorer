@@ -10,7 +10,7 @@
     {
       "name": "searchFile",
       "displayName": "Search File",
-      "description": "Search for files in a directory. Never rely on exact match of the keywords, instead use broader keyword list. For example, use 'proof of insurance car id card pdf' instead of 'ford insurance pdf' to find 'car_id_card.pdf'.",
+      "description": "Search for files in a directory. Never rely on exact match of the keywords, include also common synonyms. For example, use 'insurance proof id card ford car pdf' when user asks for 'ford insurance pdf'.",
       "parameters": {
         "type": "object",
         "required": [
@@ -20,7 +20,7 @@
         "properties": {
           "keywords": {
             "type": "string",
-            "description": "The keywords present in the file name to search for. For example: when searching for '2025 company reports' use '2025 company firm report reports' to cover plural and singular forms as well as alternative phrasings."
+            "description": "The keywords present in the file name to search for. For example: when searching for '2025 company reports' use '2025 company firm report' to cover alternative phrasings."
           },
           "directory": {
             "type": "string",
@@ -46,7 +46,7 @@
     {
       "name": "searchDirectory",
       "displayName": "Search Directory",
-      "description": "Search for directories (folders) in a directory. Never rely on exact match of the keywords, instead use broader keyword list. For example, use 'us tax return form forms irs refund' instead of 'tax return' to find '2025 us tax return' folder.",
+      "description": "Search for directories (folders) in a directory. Never rely on exact match of the keywords, include also common synonyms. For example, use '2025 us tax return form irs refund' to find '2025 tax return' folder.",
       "parameters": {
         "type": "object",
         "required": [
@@ -56,7 +56,7 @@
         "properties": {
           "keywords": {
             "type": "string",
-            "description": "The keywords present in the directory name to search for. For example: when searching for '2025 company reports' use '2025 company firm report reports' to cover plural and singular forms as well as alternative phrasings."
+            "description": "The keywords present in the directory name to search for. For example: when searching for '2025 company reports' use '2025 company firm report' to cover alternative phrasings."
           },
           "directory": {
             "type": "string",
